@@ -1,0 +1,34 @@
+Notas del taller clon de google photos con NodeJS y TypeScript
+
+**CONFIGURACION DE PROYECTO**
+* Instalamos dependencias con el siguiente comando: "npm i express bcrypt cors ejs express-session mongoose multer ts-node typescript"
+
+* Instalamos dependencias de desarrollador con el siguiente comando: "npm i -D dotenv nodemon @types/bcrypt @types/cors @types/express @types/express-session @types/multer @types/node"
+
+* Creamos las carpetas necesarias para el proyecto
+    src
+        middleware //Donde se maneja el acceso a siertas rutas//
+        model //Se maneja el modelo para conectarnos a MongoDB (supongo que bases de datos en general)//
+        routes //Donde se define la logica//
+        views //Donde van las vistas//
+            albums
+            error
+            home
+            layout
+            login
+    public
+
+* Se crea un .gitignore con lo siguiente: "node_modules
+public/images
+build
+.env"
+
+* Agregamos un archivo de configuracion para TypeScript con el siguiente comando "npx tsc --init"
+
+* En el archivo "tsconfig.json" agregamos ""rootDir": "./src"" y ""outDir": "./build""
+
+* Hizo algo en package.json pero a mi no se me creo el archivo cuando instale dependencias asique busque el repo del video y cree el archivo con esa configuracion
+
+* Utilizamos el comando "npm run dev" y vemos que ta todo joya aunque no entendo
+//dev es el script configurado en package.json con ruta en "nodemon src/app.ts"
+
