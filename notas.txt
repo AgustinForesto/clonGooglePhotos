@@ -32,3 +32,68 @@ build
 * Utilizamos el comando "npm run dev" y vemos que ta todo joya aunque no entendo
 //dev es el script configurado en package.json con ruta en "nodemon src/app.ts"
 
+
+
+**Creacion de servidor Node**
+*Importamos express y exportamos la app express. Configuramos la respuesta del servidor para la ruta "/". Iniciamos la escucha del servidor en el puerto 3000.
+El codigo es el siguiente:
+"
+    import express, {Request, Response} from "express";
+    export const app = express();
+
+    app.get("/", (req: Request, res: Response) => { 
+        res.send("Que ondaaa desde el server(?")
+    });
+
+    app.listen(3000, () => {
+        console.log("Servidor en el puerto 3000");
+    });
+"
+
+
+
+**Configurar middleware**
+*Configuramos otros import:
+"
+    import dotenv from "dotenv";
+    import cors from "cors";
+    import session from "express-session";
+    import { join } from "path";
+"
+
+*Para habilitar las variables de entorno:
+"
+    dotenv.config();
+"
+
+*Para poder hacer uso de las cabeceras y poder manejarla como objetos literales:
+"
+    app.use(express.json());
+"
+
+*Definimos cors:
+"
+    app.use(cors());
+"
+
+*Definimos una carpeta publica para poder hacer llamados a recursos publicos
+"
+    app.use(express.static(join(__dirname, "../public/")));
+"
+
+*Colocamos el motor de templates (ejs):
+"
+    app.set("views", join(__dirname, "views"));
+    app.set("view engine", "ejs");
+"
+
+*Para configurar nuestras sesiones:
+"
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET as string,
+            resave: false,
+            saveUninitialized: false,
+        })
+    );
+"
