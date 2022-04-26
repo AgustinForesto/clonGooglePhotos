@@ -97,3 +97,40 @@ El codigo es el siguiente:
         })
     );
 "
+
+
+
+**Configurar .env**
+*Creamos el archivo ".env" en la raiz del proyecto, aca se definen las variables de entorno
+    clonGooglePhotos
+        .env
+
+
+
+**Conexion a MongoDB**
+*Importamos mongoose
+"
+    import mongoose from "mongoose";
+"
+
+*Definimos un objeto que tiene la informacion de nuestra base de datos
+"
+    const options: mongoose.ConnectOptions = {
+        dbName: process.env.DB_NAME as string,
+        user: process.env.DB_USERNAME as string,
+        pass: process.env.DB_PASSWORD as string
+    };
+"
+
+*Hacemos la conexion. Encapsulamos al llamado porque el del video compilo en una version de TypeScript que todavia no esta soportado tener async a nivel de toplevel, significa que no puedo mandar a llamar un await sin que alla una funcion con un async.
+"
+    (async () => {
+        await mongoose.connect(process.env.DB_CONNECTION as string, options);
+        console.log("Conectando a MongoDB..");
+    })();
+"
+
+*Utilizamos MongoDB Atlas para crear nuestra base de datos y establecemos dicha conextion
+
+
+

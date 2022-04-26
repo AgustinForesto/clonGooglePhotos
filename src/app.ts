@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import session from "express-session";
 import { join } from "path";
+import mongoose from "mongoose";
 export const app = express();
 
 dotenv.config();
@@ -21,6 +22,17 @@ app.use(
         saveUninitialized: false,
     })
 );
+
+const options: mongoose.ConnectOptions = {
+    dbName: process.env.DB_NAME as string,
+    user: process.env.DB_USERNAME as string,
+    pass: process.env.DB_PASSWORD as string
+};
+
+(async () => {
+    await mongoose.connect(process.env.DB_CONNECTION as string, options);
+    console.log("Conectando a MongoDB..");
+})();
 
 app.get("/", (req: Request, res: Response) => { 
     res.send("Que ondaaa desde el server(?")
