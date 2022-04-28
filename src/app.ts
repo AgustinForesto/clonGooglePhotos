@@ -4,6 +4,8 @@ import cors from "cors";
 import session from "express-session";
 import { join } from "path";
 import mongoose from "mongoose";
+import { router as HomeRouter } from "./routes/login.routes";
+
 export const app = express();
 
 dotenv.config();
@@ -22,6 +24,8 @@ app.use(
         saveUninitialized: false,
     })
 );
+
+app.use(HomeRouter);
 
 const options: mongoose.ConnectOptions = {
     dbName: process.env.DB_NAME as string,
