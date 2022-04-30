@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 //Para la encripcion de la informacion//
 import bcrypt, { hash } from "bcrypt";
 
+export interface IUser{
+    id?: string;
+    username: string;
+    password: string;
+    name?: string;
+}
+
 const UserSchema = new mongoose.Schema({
     id: { type: Object },
     username: { type: String, required: true, unique: true },

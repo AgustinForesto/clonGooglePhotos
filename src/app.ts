@@ -5,6 +5,13 @@ import session from "express-session";
 import { join } from "path";
 import mongoose from "mongoose";
 import { router as HomeRouter } from "./routes/login.routes";
+import { IUser } from "./model/user.model";
+
+declare module "express-session" {
+    interface Session {
+        user: IUser
+    }
+}
 
 export const app = express();
 
