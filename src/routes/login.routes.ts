@@ -11,58 +11,73 @@ router.get("/signup", (req: Request, res: Response) => {
     res.render("signup/index");
 });
 
-router.post("/auth", async (req: Request, res: Response, next: NextFunction) => { 
-    const { username, password }: IUser = req.body;
+router.post(
+    "/auth",
+    async (req: Request, res: Response, next: NextFunction) => { 
+        const { username, password }: IUser = req.body;
 
-    if (!username || !password) {
-        console.log("Falta un campo");
-        res.redirect("/login");
-    } else {
-        try {
-            const user = new User();
+        if (!username || !password) {
+            console.log("Falta un campo");
+            res.redirect("/login");
+        } else {
+            try {
+                const user = new User();
 
-            const userExists = await user.usernameExists(username);
+                const userExists = await user.usernameExists(username);
 
-            if (userExists) {
-                const userFound = await User.findOne({ username });
+                if (userExists) {
+                    const userFound = await User.findOne({ username: username });
 
-                const passCorrect = await user.isCorrectPassword(password, userFound.password);
+                    const passCorrect = await user.isCorrectPassword(password, userFound.password);
 
-                if (passCorrect) {
-                    req.session.user = userFound;
-                    res.redirect("/home");
+                    if (passCorrect) {
+                        req.session.user = userFound;
+                        
+                        res.redirect("/home");
+                    } else {
+                        res.redirect("/login");
+                    }
                 } else {
                     res.redirect("/login");
                 }
-            } else {
+
+            } catch (error) {
+                console.log(error);
                 res.redirect("/login");
             }
-
-        } catch (error) {
-            res.redirect("/login");
         }
     }
-});
+);
 
-router.post("/register", async (req: Request, res: Response, next: NextFunction) => {
-    const { username, password, name }: IUser = req.body;
-    if (!username || !password || !name) {
-        console.log("Uno o mas campos vacios");
-
-        res.redirect("/signup");
-    } else {
-        try {
-            const userProps = { username, password, name };
+router.post(
+    "/register",
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { username, password, name }: IUser = req.body;
         
-            const user = new User(userProps);
-    
-            const exists = await user.usernameExists(username);
+        if (!username || !password || !name) {
+            console.log("Uno o mas campos vacios");
+
+            res.redirect("/signup");
+        } else {
+            try {
+                console.log(req.body);
+                const userProps: IUser = { username, password, name };
+            
+                const user = new User(userProps);
         
-            if (exists) res.redirect("/signup");
+                const exists = await user.usernameExists(username);
+            
+                if (exists) {
+                    res.redirect("/signup");
+                } else {
+                    await user.save();
 
-            await user.save();
-
-            res.redirect("/login");
-        } catch (error) { res.redirect("/signup"); }
+                    res.redirect("/login");
+                }
+            } catch (error) {
+                console.log(error);
+                res.redirect("/signup");
+            }
+        }
     }
-});
+);

@@ -19,9 +19,8 @@ export const router = express.Router();
 
 router.get("/home", async (req: Request, res: Response) => {
     try {
-        const photos = await Photo.find(
-            //{ userid: req.session.user.id! }
-        );
+        const photos = await Photo.find({ userid: req.session.user._id });
+
         res.render("home/index", { user: req.session.user, photos });
     } catch (error) {
         res.render("home/index", { user: req.session.user });
@@ -33,9 +32,7 @@ router.post("/upload", upload.single("photos"), (req: Request, res: Response) =>
 
     const photoProps = {
         filename: file.filename,
-        userid:
-            //req.session.user.id!,
-            req.session.user.id || req.session.id || "usuarioUnico",
+        userid: req.session.user._id,
         size: file.size,
         mimeType: file.mimetype,
     }
