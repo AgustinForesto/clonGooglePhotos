@@ -3,20 +3,12 @@ import User, { IUser } from "../model/user.model";
 
 export const router = express.Router();
 
-router.get("/home", (req: Request, res: Response) => {
-    res.render("home/index", {user: req.session.user});
-});
-
 router.get("/login", (req: Request, res: Response) => { 
     res.render("login/index");
 });
 
 router.get("/signup", (req: Request, res: Response) => {
     res.render("signup/index");
-});
-
-router.post("/upload", (req: Request, res: Response) => {
-
 });
 
 router.post("/auth", async (req: Request, res: Response, next: NextFunction) => { 
