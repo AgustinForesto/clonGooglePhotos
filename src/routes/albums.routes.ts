@@ -16,12 +16,12 @@ router.get("/albums", async (req: Request, res: Response, next: NextFunction) =>
 router.get("/albums/:id", (req: Request, res: Response, next: NextFunction) => { });
 
 router.post("/create-album", async (req: Request, res: Response, next: NextFunction) => {
-    const { name, isPrivate }: IAlbum = req.body;
-
+    const { name, isPrivate }: {name: string, isPrivate: string} = req.body;
+console.log(req.body)
     const albumProps: IAlbum = {
         name: name,
         userid: req.session.user._id,
-        isPrivate: isPrivate,
+        isPrivate: isPrivate === "on",
         createAt: new Date(),
     }
 
@@ -31,7 +31,6 @@ router.post("/create-album", async (req: Request, res: Response, next: NextFunct
         album.save();
 
         res.redirect("/albums");
-        console.log(req)
     } catch (error) {
         
     }

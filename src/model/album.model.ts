@@ -12,7 +12,7 @@ const AlbumSchema = new mongoose.Schema({
     id: { type: Object },
     name: { type: String, required: true},
     userid: { type: String, default: "" },
-    isprivate: { type: Boolean, required: true, default: true },
+    isPrivate: { type: Boolean, required: true, default: true },
     createAt: { type: Date, default: Date.now() },
 });
 
