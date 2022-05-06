@@ -1,0 +1,9 @@
+<div class="albums">
+    <% albums.forEach(album=> { %>
+        <div>
+            <div><a href="/albums/<%= album._id %>">
+                    <%= album.name %>
+                </a></div>
+        </div>
+        <% }) %>
+</div>

@@ -17,7 +17,7 @@ router.get("/albums/:id", (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/create-album", async (req: Request, res: Response, next: NextFunction) => {
     const { name, isPrivate }: {name: string, isPrivate: string} = req.body;
-console.log(req.body)
+
     const albumProps: IAlbum = {
         name: name,
         userid: req.session.user._id,
