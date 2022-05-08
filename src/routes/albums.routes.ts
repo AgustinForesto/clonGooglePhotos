@@ -5,8 +5,8 @@ export const router = express.Router();
 
 router.get("/albums", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const albums = Album.find({ userid: req.session.user._id });
-        
+        const albums = await Album.find({ userid: req.session.user._id });
+
         res.render("albums/index", { user: req.session.user, albums });
     } catch (error) {
         

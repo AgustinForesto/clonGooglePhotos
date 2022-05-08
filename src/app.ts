@@ -53,8 +53,10 @@ const options: mongoose.ConnectOptions = {
     console.log("Conectando a MongoDB..");
 })();
 
+const laa = "laaa mierda"
+
 app.get("/", (req: Request, res: Response) => { 
-    res.send("Que ondaaa desde el server(?")
+    res.render("index", {laa: laa});
 });
 
 app.listen(3000, () => {

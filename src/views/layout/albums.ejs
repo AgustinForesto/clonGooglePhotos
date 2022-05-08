@@ -1,9 +1,24 @@
+<style>
+    .albums {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 7px;
+        margin: 5px;
+    }
+
+    .album {
+        width: max-content;
+        height: 45px;
+        border: 1px solid black;
+    }
+</style>
+
 <div class="albums">
-    <% albums.forEach(album=> { %>
-        <div>
-            <div><a href="/albums/<%= album._id %>">
-                    <%= album.name %>
-                </a></div>
+    <% albums.forEach(album => { %>
+        <div class="album">
+            <a href="/albums/<%= album._id %>">
+                <%= album.name %>
+            </a>
         </div>
-        <% }) %>
+        <% }); %>
 </div>
