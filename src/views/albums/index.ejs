@@ -5,16 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albums</title>
+    <style>
+        form[action="/create-album"] {
+            min-width: max-content;
+            max-width: 60vw;
+            width: max-content;
+            margin: 5px;
+        }
+        form[action="/create-album"] > input[type="submit"]{
+            width: 100%;
+            font-size: 1.05rem;
+        }
+        form[action="/create-album"] > input[type="submit"]:hover{
+            color: red;
+        }
+        form[action="/create-album"] > span {
+            display: block;
+            width: 125%;
+            height: 5px;
+            margin-top: 2px;
+            background-color: brown;
+        }
+    </style>
 </head>
 <body>
     <%- include("../layout/navbar") %>
 
     <form action="/create-album" method="post">
-        <input type="text" name="name" placeholder="Album name">
+        <div>
+            <input type="text" name="name" placeholder="Album name">
 
-        <input type="checkbox" name="isPrivate" checked>Private Album
+            <input type="checkbox" name="isPrivate" checked>Private
+        </div>
 
         <input type="submit" value="Create">
+
+        <span></span>
     </form>
 
     <%- include("../layout/albums") %>

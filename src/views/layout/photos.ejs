@@ -1,3 +1,65 @@
+<style>
+    ::after,
+    ::before {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: rgba(157, 180, 202, 0.658);
+    }
+
+    .container-fluid {
+        width: 100%;
+    }
+
+    .photos {
+        display: grid;
+        grid-gap: 1rem;
+        margin: 1vw;
+    }
+
+    .photo {
+        height: auto;
+    }
+
+    .photo img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    @media (min-width: 250px) {
+        .photos {
+            grid-template-columns: repeat(2, 1fr);
+            margin: 10vw;
+        }
+    }
+
+    @media (min-width: 450px) {
+        .photos {
+            grid-template-columns: repeat(3, 1fr);
+            margin: 1vw;
+        }
+    }
+
+    @media (min-width: 600px) {
+        .photos {
+            grid-template-columns: repeat(5, 1fr);
+        }
+    }
+
+    @media (min-width: 800px) {
+        .photos {
+            grid-template-columns: repeat(6, 1fr);
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .photos {
+            grid-template-columns: repeat(8, 1fr);
+        }
+    }
+</style>
+
 <div class="photos">
 
     <% photos.forEach(photo=> { %>
