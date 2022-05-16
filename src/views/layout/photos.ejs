@@ -60,11 +60,50 @@
     }
 </style>
 
-<div class="photos">
+<div id="add-album">
+    Agregar a album:
 
+    <form action="/add-to-album" method="post">
+        <input type="hidden" name="ids">
+        
+        <select name="albumid">
+            <% albums.forEach(album => { %>
+                <option value="<%= album._id %>"><%= album.name %></option>
+            <% }) %>
+        </select>
+
+        <input type="submit" value="Agregar" class="btn">
+    </form>
+</div>
+
+<div class="photos">
     <% photos.forEach(photo=> { %>
         <div class="photo">
+            <div>
+                <input type="checkbox" class="select-photo" value="<%= photo._id %>">
+            </div>
+
             <img src="http://localhost:3000/images/<%= photo.filename %>">
         </div>
-        <% }) %>
+    <% }) %>
 </div>
+
+<script>
+    const checkboxes = document.querySelectorAll(".select-photo");
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("click", e => {
+            if(checkbox.checked) {
+                const cb = document.querySelectorAll(".select-photo:checked");
+
+                const ids = [...cb].map(c => c.value);
+
+                document.querySelector("input[name=`ids`]").value = ids.join(",");
+                
+                document.getElementById("add-album").style.display = "block";
+            }else{
+                document.getElementById("add-album").style.display = "none";
+            }
+        });
+    });
+</script>
