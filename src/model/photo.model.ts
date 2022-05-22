@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+export interface IPhoto {
+    _id?: string;
+    filename: string;
+    userid: string;
+    size: number;
+    mimeType: string;
+    favorite: boolean;
+    createAt?: Date;
+    albums: string[];
+}
+
 const PhotoSchema = new mongoose.Schema({
     id: { type: Object },
     filename: { type: String, required: true, unique: true },
