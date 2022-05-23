@@ -98,7 +98,7 @@
 
                 const ids = [...cb].map(c => c.value);
 
-                document.querySelector("input[name=`ids`]").value = ids.join(",");
+                document.querySelector(`input[name="ids"]`).value = ids.join(",");
                 
                 document.getElementById("add-album").style.display = "block";
             }else{

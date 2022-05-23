@@ -17,7 +17,7 @@ router.post(
         for (let i = 0; i < idPhotos.length; i++) {
             promises.push(
                 Photo.findByIdAndUpdate(idPhotos[i], {
-                    $push: { albums: albumid as any },
+                    $push: { albums: albumid },
                 })
             );
         }

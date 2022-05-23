@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
-import Album, {IAlbum} from "../model/album.model";
+import Album, { IAlbum } from "../model/album.model";
+import Photo, { IPhoto } from "../model/photo.model";
 
 export const router = express.Router();
 
@@ -13,7 +14,33 @@ router.get("/albums", async (req: Request, res: Response, next: NextFunction) =>
     }
 });
 
-router.get("/albums/:id", (req: Request, res: Response, next: NextFunction) => { });
+router.get(
+    "/albums/:id",
+    async (req: Request, res: Response, next: NextFunction) => { 
+        const albumid = req.params.id;
+
+        try {
+            let photos = await Photo.find({
+                albums: albumid,
+            });
+
+            let album = await Album.findById(albumid);
+
+            if (album.userid !== req.session.user._id && album.isprivate) {
+                res.render("error/privacy", {});
+
+                return;
+            }
+
+            res.render("albums/view", {
+                user: req.session.user,
+                photos,
+                album,
+            });
+        } catch (error) {
+            
+        }
+    });
 
 router.post("/create-album", async (req: Request, res: Response, next: NextFunction) => {
     const { name, isPrivate }: {name: string, isPrivate: string} = req.body;
