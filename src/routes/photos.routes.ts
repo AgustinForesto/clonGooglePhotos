@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../model/user.model"
 import Album, { IAlbum } from "../model/album.model";
-import Photo, { IPhoto } from "../model/photo.model";
+import Photo, { IPhoto, IPhotoFavReq } from "../model/photo.model";
 
 export const router = express.Router();
 
@@ -21,13 +21,13 @@ router.post(
                 })
             );
         }
-        // idPhotos.forEach((id: string | number) => {
-        //     promises.push(
-        //         Photo.findByIdAndUpdate(idPhotos[id], {
-        //             $push: { albums: albumid },
-        //         })
-        //     );
-        // });
+        /*idPhotos.forEach((id: string | number) => {
+            promises.push(
+                Photo.findByIdAndUpdate(idPhotos[id], {
+                    $push: { albums: albumid },
+                })
+            );
+        });*/
 
         await Promise.all(promises);
 
@@ -36,8 +36,50 @@ router.post(
 
 router.post("/update-photos", (req: Request, res: Response) => { });
 
-router.post("/add-favorite", async (req: Request, res: Response) => { });
+router.post("/add-favorite", async (req: Request, res: Response) => {
+    const { photoid, origin }: IPhotoFavReq = req.body;
 
-router.post("/remove-favorite", async (req: Request, res: Response) => { });
+    try {
+        await Photo.findByIdAndUpdate(photoid, {
+            $set: { favorite: true }
+        });
 
-router.get("/view/:id", async (req: Request, res: Response, next: NextFunction) => { });
+        res.redirect(origin);
+    } catch (error) {
+        
+    }
+});
+
+router.post("/remove-favorite", async (req: Request, res: Response) => {
+    const { photoid, origin }: IPhotoFavReq = req.body;
+
+    try {
+        await Photo.findByIdAndUpdate(photoid, {
+            $set: { favorite: false }
+        });
+
+        res.redirect(origin);
+    } catch (error) {
+        
+    }
+});
+
+router.get("/view/:id", async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id as string;
+    const origin = req.query.origin as string;
+
+    try {
+        const photo = await Photo.findById(id);
+
+        const albums = await Album.find({ userid: req.session.user._id });
+
+        res.render("layout/preview", {
+            user: req.session.user,
+            photo,
+            albums,
+            origin,
+        });
+    } catch (error) {
+        
+    }
+});

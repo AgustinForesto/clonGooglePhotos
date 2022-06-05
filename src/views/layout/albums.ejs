@@ -22,6 +22,10 @@
             <a href="/albums/<%= album._id %>">
                 <%= album.name %>
             </a>
+            <form action="/delete-album" method="post" style="display: inline;">
+                <input type="text" name="albumId" value="<%= album._id %>" style="display: none;">
+                <input type="submit" value="Delete" name="<%= album._id %>">
+            </form>
         </div>
-        <% }); %>
+    <% }); %>
 </div>

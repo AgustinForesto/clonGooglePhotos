@@ -24,6 +24,8 @@ router.get(
                 albums: albumid,
             });
 
+            let albums = await Album.find({ userid: req.session.user._id });
+
             let album = await Album.findById(albumid);
 
             if (album.userid !== req.session.user._id && album.isprivate) {
@@ -36,6 +38,7 @@ router.get(
                 user: req.session.user,
                 photos,
                 album,
+                albums,
             });
         } catch (error) {
             
@@ -56,6 +59,16 @@ router.post("/create-album", async (req: Request, res: Response, next: NextFunct
         const album = await new Album(albumProps);
 
         album.save();
+
+        res.redirect("/albums");
+    } catch (error) {
+        
+    }
+});
+
+router.post("/delete-album", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await Album.findByIdAndDelete(req.body.albumId);
 
         res.redirect("/albums");
     } catch (error) {

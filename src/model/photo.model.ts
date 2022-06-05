@@ -11,6 +11,11 @@ export interface IPhoto {
     albums: string[];
 }
 
+export interface IPhotoFavReq {
+    photoid: string;
+    origin: string;
+}
+
 const PhotoSchema = new mongoose.Schema({
     id: { type: Object },
     filename: { type: String, required: true, unique: true },
