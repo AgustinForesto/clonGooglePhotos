@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import multer from "multer";
+import { middleware } from "../middleware/auth.middleware";
 import Album from "../model/album.model";
 import Photo from "../model/photo.model";
 
@@ -18,31 +19,38 @@ const upload = multer({ storage: storage });
 
 export const router = express.Router();
 
-router.get("/home", async (req: Request, res: Response) => {
-    try {
-        const photos = await Photo.find({ userid: req.session.user._id });
-
-        const albums = await Album.find({ userid: req.session.user._id });
-
-        res.render("home/index", { user: req.session.user, photos, albums });
-    } catch (error) {
-        res.render("home/index", { user: req.session.user });
+router.get("/home",
+    middleware,
+    async (req: Request, res: Response) => {
+        try {
+            const photos = await Photo.find({ userid: req.session.user._id });
+    
+            const albums = await Album.find({ userid: req.session.user._id });
+    
+            res.render("home/index", { user: req.session.user, photos, albums });
+        } catch (error) {
+            res.render("home/index", { user: req.session.user });
+        }
     }
-});
+);
 
-router.post("/upload", upload.single("photos"), (req: Request, res: Response) => {
-    const file = req.file!;
-
-    const photoProps = {
-        filename: file.filename,
-        userid: req.session.user._id,
-        size: file.size,
-        mimeType: file.mimetype,
+router.post("/upload",
+    middleware,
+    upload.single("photos"),
+    (req: Request, res: Response) => {
+        const file = req.file!;
+    
+        const photoProps = {
+            filename: file.filename,
+            userid: req.session.user._id,
+            size: file.size,
+            mimeType: file.mimetype,
+        }
+    
+        const photo = new Photo(photoProps);
+    
+        photo.save();
+    
+        res.redirect("/home");
     }
-
-    const photo = new Photo(photoProps);
-
-    photo.save();
-
-    res.redirect("/home");
-});
+);

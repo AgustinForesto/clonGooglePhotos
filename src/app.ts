@@ -11,6 +11,7 @@ import { router as loginRouter } from "./routes/login.routes";
 import { router as homeRouter } from "./routes/home.routes";
 import { router as albumsRouter } from "./routes/albums.routes";
 import { router as photosRouter } from "./routes/photos.routes";
+import { middleware } from "./middleware/auth.middleware";
 
 
 declare module "express-session" {
@@ -57,8 +58,15 @@ const options: mongoose.ConnectOptions = {
 
 const laa = "laaa mierda"
 
-app.get("/", (req: Request, res: Response) => { 
-    res.render("index", {laa: laa});
+app.get("/",
+    middleware,
+    (req: Request, res: Response) => { 
+        res.render("index", { laa: laa });
+    }
+);
+
+app.use((req, res, next) => {
+    res.render("error/404");
 });
 
 app.listen(3000, () => {

@@ -1,18 +1,25 @@
 import express, { NextFunction, Request, Response } from "express";
+import { middlewareHome } from "../middleware/auth.middleware";
 import User, { IUser } from "../model/user.model";
 
 export const router = express.Router();
 
-router.get("/login", (req: Request, res: Response) => { 
-    res.render("login/index");
-});
+router.get("/login",
+    middlewareHome,
+    (req: Request, res: Response) => { 
+        res.render("login/index");
+    }
+);
 
-router.get("/signup", (req: Request, res: Response) => {
-    res.render("signup/index");
-});
+router.get("/signup",
+    middlewareHome,
+    (req: Request, res: Response) => {
+        res.render("signup/index");
+    }
+);
 
-router.post(
-    "/auth",
+router.post("/auth",
+    middlewareHome,
     async (req: Request, res: Response, next: NextFunction) => { 
         const { username, password }: IUser = req.body;
 
@@ -49,8 +56,8 @@ router.post(
     }
 );
 
-router.post(
-    "/register",
+router.post("/register",
+    middlewareHome,
     async (req: Request, res: Response, next: NextFunction) => {
         const { username, password, name }: IUser = req.body;
         
